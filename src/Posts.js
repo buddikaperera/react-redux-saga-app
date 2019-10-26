@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Button from './components/Button';
 import MessageAlerts from './components/MessageAlerts';
 import { GET_POSTS, GET_FAV_POSTS, PUT_POST, ADD_POST, DELETE_POST, PUT_LIKES } from './actions';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class Posts extends Component {
 
@@ -17,6 +19,24 @@ class Posts extends Component {
 
     componentDidMount() {
         this.props.getPosts();
+    }
+
+
+    confirmDelete(post) {
+
+        confirmAlert({
+            title: 'Confirm to Delete',
+            message: 'Are you sure to do Delete the Post ?.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.deletePost(post)
+                },
+                {
+                    label: 'No',
+                }
+            ]
+        })
     }
 
 
@@ -83,7 +103,7 @@ class Posts extends Component {
 
                                     <div className="bd-example">
                                         <Button alertType="btn btn-success" handler={() => { this.likePost(post) }} icon="fa fa-heart" count={post.likes} caption="Like" />&nbsp;
-                                        <Button alertType="btn btn-danger" handler={() => { this.deletePost(post) }} icon="fa fa-trash-o fa-lg" caption="DELETE" />
+                                        <Button alertType="btn btn-danger" handler={() => { this.confirmDelete(post) }} icon="fa fa-trash-o fa-lg" caption="DELETE" />
                                     </div>
 
                                     <p className="post-meta">Posted by
